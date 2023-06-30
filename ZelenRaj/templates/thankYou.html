@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>Зелен рај</title>
+    <style>
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+    </style>
+</head>
+<body style="background-color: #F0EFEE">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkseagreen">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url "homepage" %}" style="font-size: 24px;">ЗЕЛЕН РАЈ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse nav justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav justify-content-end px-4">
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-seedling" href="{% url 'plants' %}">Сите растенија</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-person-circle-plus" href="{% url 'addPlant' %}"> Додади растение</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link fas fa-shopping-cart" aria-current="page" href="{% url 'mycart' %}" style="color: green"> Кошничка</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Пребарај..." aria-label="Search">
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container text-center centered-container">
+    <h1>Ви благодариме!</h1>
+    <h1>Вашата нарачка се процесира.</h1>
+    <div class="text-center mt-5">
+        <a href="{% url 'homepage' %}" class="btn btn-success">Врати се на почетна</a>
+    </div>
+</div>
+<footer class="bg-dark text-white text-center fixed-bottom">
+    <div class="container py-3">
+        <p class="m-0">© 2023 FINKI DNIC Zelen Raj - All Rights Reserved</p>
+    </div>
+</footer>
+<script>
+    localStorage.clear();
+</script>
+</body>
+</html>

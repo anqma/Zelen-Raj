@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>Зелен Рај</title>
+</head>
+<body style="background-color: #F0EFEE">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkseagreen">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url "homepage" %}" style="font-size: 24px;">ЗЕЛЕН РАЈ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse nav justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav justify-content-end px-4">
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-seedling" href="{% url 'plants' %}" style="color: green">Сите растенија</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-person-circle-plus" href="{% url 'addPlant' %}"> Додади растение</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link fas fa-shopping-cart" aria-current="page" href="{% url 'mycart' %}"> Кошничка</a>
+        </li>
+      </ul>
+      <form class="d-flex" id="searchForm">
+        <input class="form-control me-2" type="search" placeholder="Пребарај..." aria-label="Search" id="searchInput">
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div id="allPlantsContainer">
+    <div class="row mb-5 mt-5 pb-4">
+        {% for plant in plants %}
+            <div class="col-4 p-1 my-3 d-flex justify-content-center">
+                <div class="card justify-content-center" style="width: 18rem;">
+                    <a href="{% url 'selectedPlant' name=plant.name %}" class="text-decoration-none" style="color: black">
+                        <img src="{{ MEDIA_URL }}{{ plant.image.url }}" class="card-img-top img-fluid mx-auto d-block" alt="..." style="height: 200px; width: 200px;">
+                    </a>
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="{% url 'selectedPlant' name=plant.name %}" class="text-decoration-none" style="color: black">
+                            <h5 class="card-title text-center">{{ plant.name }}</h5>
+                        </a>
+                        <p class="card-text text-center">{{ plant.price }} ден.</p>
+                        <button class="btn btn-success addToCartBtn" data-name="{{ plant.name }}" data-price="{{ plant.price }}">Додади во кошничка</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+  </div>
+  <div id="searchResultsContainer" style="display: none;">
+    <!-- Search results will be dynamically added here -->
+  </div>
+  <div id="buttonContainer" style="display: none;">
+    <button id="backButton" class="btn btn-link fas fa-angles-left" style="text-decoration: none; color: darkgreen">Врати се назад</button>
+  </div>
+</div>
+<footer class="bg-dark text-white text-center fixed-bottom">
+    <div class="container py-3">
+        <p class="m-0">© 2023 FINKI DNIC Zelen Raj - All Rights Reserved</p>
+    </div>
+</footer>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjwstapulFrysv+4qx3bsVq5E8fzR9BVRaevnBB4Pl5R6afetJY8e62yVe1xkcT" crossorigin="anonymous"></script>
+
+<script>
+    function addToCart(item) {
+        var shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+        shoppingCart.push(item);
+        localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+        alert('Растението е додадено во вашата кошничка');
+    }
+
+    // Event listener for the "Додади во кошничка" buttons
+    var addToCartBtns = document.querySelectorAll('.addToCartBtn');
+    addToCartBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var item = {
+                name: btn.dataset.name,
+                price: btn.dataset.price,
+                quantity: 1
+            };
+            addToCart(item);
+        });
+    });
+
+    // Add event listener to back button
+    var backButton = document.getElementById('backButton');
+    backButton.addEventListener('click', function() {
+      document.getElementById('searchResultsContainer').style.display = 'none';
+      document.getElementById('allPlantsContainer').style.display = 'block';
+      document.getElementById('buttonContainer').style.display = 'none';
+    });
+
+    // Update the event listener for the search functionality
+    var searchForm = document.getElementById('searchForm');
+    var searchInput = document.getElementById('searchInput');
+    searchForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var searchQuery = searchInput.value.toLowerCase().trim();
+      var plants = document.getElementsByClassName('col-4 p-1 my-3 d-flex justify-content-center');
+      var searchResults = [];
+
+      // Clear previous search results
+      document.getElementById('searchResultsContainer').innerHTML = '';
+
+      // Iterate over plants and filter based on search query
+      for (var i = 0; i < plants.length; i++) {
+        var plantName = plants[i].querySelector('.card-title').innerText.toLowerCase();
+        if (plantName.includes(searchQuery)) {
+          searchResults.push(plants[i].outerHTML);
+        }
+      }
+
+      // Display search results or show "No results" message
+      if (searchResults.length > 0) {
+        document.getElementById('searchResultsContainer').innerHTML = searchResults.join('');
+        document.getElementById('searchResultsContainer').style.display = 'flex';
+        document.getElementById('allPlantsContainer').style.display = 'none';
+        document.getElementById('buttonContainer').style.display = 'block';
+      } else {
+        document.getElementById('searchResultsContainer').innerHTML = '<p class="text-center">Нема резултати</p>';
+        document.getElementById('searchResultsContainer').style.display = 'flex';
+        document.getElementById('allPlantsContainer').style.display = 'none';
+        document.getElementById('buttonContainer').style.display = 'block';
+      }
+
+      searchInput.value = ''; // Clear the search input field
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>Зелен Рај</title>
+</head>
+<body style="background-color: #F0EFEE">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkseagreen">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url "homepage" %}" style="font-size: 24px;">ЗЕЛЕН РАЈ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse nav justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav justify-content-end px-4">
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-seedling" href="{% url 'plants' %}">Сите растенија</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-person-circle-plus" href="{% url 'addPlant' %}"> Додади растение</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link fas fa-shopping-cart" aria-current="page" href="{% url 'mycart' %}" style="color: green"> Кошничка</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Пребарај..." aria-label="Search">
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container">
+    <div class="m-5 mx-auto pb-4" style="max-width: 70%">
+        <h1 class="text-center">Податоци за наплата</h1>
+        <div class="col-xs-5 my-4">
+    <form action="{% url 'thankYou' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            {% if field.name == 'payment_method' %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}
+                    </label>
+                    <div class="payment-method-checkboxes">
+                        {% for value, label in field.field.choices %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="{{ field.name }}" id="{{ field.id_for_label }}" value="{{ value }}" {% if value == False %}checked{% endif %} {% if value == True %}disabled{% endif %}>
+                                <label class="form-check-label" for="{{ field.id_for_label }}">
+                                    {% if value == True %}
+                                        {{ label }} <span class="text-muted">(моментално недостапно)</span>
+                                    {% else %}
+                                        {{ label }}
+                                    {% endif %}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="text-end mt-2">
+            <button type="submit" class="btn btn-success">Направи нарачка</button>
+        </div>
+    </form>
+</div>
+
+    </div>
+</div>
+<footer class="bg-dark text-white text-center fixed-bottom">
+    <div class="container py-3">
+        <p class="m-0">© 2023 FINKI DNIC Zelen Raj - All Rights Reserved</p>
+    </div>
+</footer>
+<script>
+    $(document).ready(function() {
+        handlePaymentMethodChange();
+    });
+
+    function handlePaymentMethodChange() {
+        var checkboxes = $('.payment-method-checkboxes input[type="checkbox"]');
+        checkboxes.prop('checked', false);
+        checkboxes.prop('disabled', true);
+        checkboxes.filter('[value="False"]').prop('checked', true);
+        checkboxes.filter('[value="False"]').prop('disabled', false);
+    }
+</script>
+
+</body>
+</html>

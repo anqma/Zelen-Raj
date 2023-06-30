@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>Зелен Рај</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkseagreen">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url "homepage" %}" style="font-size: 24px;">ЗЕЛЕН РАЈ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse nav justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav justify-content-end px-4">
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-seedling" href="{% url 'plants' %}">Сите растенија</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link fas fa-solid fa-person-circle-plus" href="{% url 'addPlant' %}"> Додади растение</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link fas fa-shopping-cart" aria-current="page" href="{% url 'mycart' %}"> Кошничка</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Пребарај..." aria-label="Search">
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 p-0">
+      <div class="position-relative">
+        <img src="../../data/background3.jpg" class="img-fluid" alt="Background Image" style="opacity: 70%; height: 100vh; width: 100vw;">
+        <div class="position-absolute top-50 start-0 translate-middle-y text-center" style="margin-left: 10%;">
+          <h1 style="font-size: 48px;">ДОБРЕДОЈДОВТЕ</h1>
+          <a href="{% url 'plants' %}" class="btn btn-success mt-2" style="font-size: 20px;">Види ги сите растенија</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-5">
+            <img src="../../data/plant_images/sanseveria-4-beoflora.jpg" class="img-fluid mx-auto d-block" alt="Sanseveria" style="height: 450px">
+        </div>
+        <div class="col-md-7 pt-5">
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h2>Сансеверија</h2>
+                </div>
+                <div class="col-md-4">
+                    <h3>550 денари</h3>
+                </div>
+            </div>
+            <div class="row" style="width: 90%">
+                <p>Сансеверија (лат. Sanseveria) е декоративно собно растение кое е многу отпорно, па ова го прави совршен избор за оние кои не се многу вешти со растенија.
+                    <br/>Ова е растение што можете да го чувате и под сенка, но му годи и неколку часа сончева светлина во текот на денот. Единствено имајте на ум дека ако го чувате на сонце, ќе расте многу побрзо.
+                    <br/>Кога станува збор за наводнување, нема да направите голема штета и ако заборавите. Препорачливо е да го наводнувате кога ќе забележите дека почвата во саксијата е засушена.</p>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-md-5">
+                    <button class="btn btn-success addToCartBtn">Додади во кошничка</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-4" style="background-color: #F0EFEE">
+    <div class="row justify-content-center">
+        <div class="col-md-4 card m-4" style="width: 18rem;">
+            <a href="{% url 'selectedPlant' name='Фикус' %}"><img src="../../data/plant_images/fikus.jpg" class="card-img-top" alt="..."></a>
+          <div class="card-body">
+              <h5 class="card-title text-center" style="color: black;">Фикус</h5>
+            <p class="card-text text-center">900 денари</p>
+          </div>
+        </div>
+        <div class="col-md-4 card m-4" style="width: 18rem;">
+            <a href="{% url 'selectedPlant' name='Замија' %}"><img src="../../data/plant_images/zamija.jpg" class="card-img-top" alt="..."></a>
+          <div class="card-body">
+              <h5 class="card-title text-center" style="color: black;">Замија</h5>
+            <p class="card-text text-center">750 денари</p>
+          </div>
+        </div>
+        <div class=" col-md-4 card m-4" style="width: 18rem;">
+            <a href="{% url 'selectedPlant' name='Пахира' %}"><img src="../../data/plant_images/Pachira-Beoflora.jpg" class="card-img-top pb-2 pt-3" alt="..."></a>
+          <div class="card-body">
+              <h5 class="card-title text-center" style="color: black;">Пахира</h5>
+            <p class="card-text text-center">1850 денари</p>
+          </div>
+        </div>
+    </div>
+</div>
+<div class="p-5 mb-5" style="background-color: darkseagreen">
+    <div class="container" style="max-width: 80%">
+        <h1 class="text-center">За нас</h1><br/>
+        <p class="text-center">Ние сме ентузијасти за природата и ботаниката и со вас ја споделуваме нашата страст за зеленилото.</p>
+        <p class="text-center">Посветени сме во обезбедување на најквалитетни и разновидни растенија. Наша цел е да создадеме искуство што ги надминува границите на традиционалното купување во физичките продавници</p>
+    </div>
+</div>
+<footer class="bg-dark text-white text-center fixed-bottom">
+    <div class="container py-3">
+        <p class="m-0">© 2023 FINKI DNIC Zelen Raj - All Rights Reserved</p>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjwstapulFrysv+4qx3bsVq5E8fzR9BVRaevnBB4Pl5R6afetJY8e62yVe1xkcT" crossorigin="anonymous"></script>
+<script>
+    function addToCart(item) {
+        var shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+        shoppingCart.push(item);
+        localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+        alert('Растението е додадено во вашата кошничка');
+    }
+
+    // Event listener for the "Додади во кошничка" buttons
+    var addToCartBtns = document.querySelectorAll('.addToCartBtn');
+    addToCartBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var item = {
+                name: "Сансеверија",
+                price: "550",
+                quantity: 1
+            };
+            addToCart(item);
+        });
+    });
+</script>
+</body>
+</html>

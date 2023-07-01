@@ -30,4 +30,5 @@ urlpatterns = [
     path('addPlant/', addPlant, name="addPlant"),
     path('plants/<str:name>/', selectedPlant, name="selectedPlant"),
     path('thankYou/', thankYou, name="thankYou"),
+    path('', homepage, name="homepage")
     ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

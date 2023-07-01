@@ -26,7 +26,7 @@ class OrderForm(forms.ModelForm):
     payment_method = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         choices=PAYMENT_CHOICES,
-        initial=[False],  # Set "Плаќање во готово при достава" as the initial value because currently the electronic payment option is not available
+        initial=[False],  # "Плаќање во готово при достава" as the initial value because currently the electronic payment option is not available
         label='Начин на плаќање'
     )
 

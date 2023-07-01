@@ -7,13 +7,13 @@ from ZelenRaj.models import Plant
 
 def order(request):
     if request.method == "POST":
-        form_data = PlantForm(data=request.POST, files=request.FILES)
-        if form_data.is_valid():
-            o = form_data.save(commit=False)
-            o.user = request.user
-            o.save()
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect("thankYou")
-    context = {"form": OrderForm}
+    else:
+        form = OrderForm()
+    context = {"form": form}
     return render(request, "order.html", context)
 
 
